@@ -20,3 +20,5 @@ libraryDependencies ++= Seq(
 
 enablePlugins(SbtTwirl)
 enablePlugins(ScalatraPlugin)
+
+mainClass in assembly := Some("ml.renatocf.exploringmars.JettyLauncher")
