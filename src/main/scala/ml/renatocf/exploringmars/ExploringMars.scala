@@ -2,10 +2,17 @@ package ml.renatocf.exploringmars
 
 import org.scalatra._
 
-class ExploringMars extends ScalatraServlet {
+import org.json4s.{DefaultFormats, Formats}
+import org.scalatra.json._
 
-  get("/") {
-    views.html.hello()
+class ExploringMars extends ScalatraServlet with JacksonJsonSupport {
+  protected implicit val jsonFormats: Formats = DefaultFormats
+
+  before() {
+    contentType = formats("json")
   }
 
+  get("/") {
+    ("message" -> "hello world")
+  }
 }
