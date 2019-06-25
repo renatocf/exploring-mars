@@ -20,7 +20,6 @@ libraryDependencies ++= Seq(
   "org.json4s"   %% "json4s-jackson" % "3.6.7"
 )
 
-enablePlugins(SbtTwirl)
 enablePlugins(ScalatraPlugin)
 
 mainClass in assembly := Some("ml.renatocf.exploringmars.JettyLauncher")
