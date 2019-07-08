@@ -20,6 +20,10 @@ libraryDependencies ++= Seq(
   "org.json4s"   %% "json4s-jackson" % "3.6.7"
 )
 
+containerLibs in Jetty := Seq(
+  "org.eclipse.jetty" % "jetty-runner" % "9.4.19.v20190610" intransitive()
+)
+
 enablePlugins(ScalatraPlugin)
 
 mainClass in assembly := Some("ml.renatocf.exploringmars.JettyLauncher")
