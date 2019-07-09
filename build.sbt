@@ -17,8 +17,13 @@ libraryDependencies ++= Seq(
   "org.eclipse.jetty" % "jetty-webapp" % "9.4.19.v20190610" % "compile",
   "javax.servlet" % "javax.servlet-api" % "4.0.1" % "provided",
   "org.scalatra" %% "scalatra-json" % ScalatraVersion,
-  "org.json4s"   %% "json4s-jackson" % "3.6.7"
+  "org.json4s"   %% "json4s-jackson" % "3.6.7",
+  "ch.qos.logback" % "logback-classic" % "1.2.3" % "runtime",
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
 )
+
+logBuffered in Test := false
+parallelExecution in Test := false
 
 containerLibs in Jetty := Seq(
   "org.eclipse.jetty" % "jetty-runner" % "9.4.19.v20190610" intransitive()
