@@ -19,7 +19,10 @@ libraryDependencies ++= Seq(
   "org.scalatra" %% "scalatra-json" % ScalatraVersion,
   "org.json4s"   %% "json4s-jackson" % "3.6.7",
   "ch.qos.logback" % "logback-classic" % "1.2.3" % "runtime",
-  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
+  "org.squeryl" %% "squeryl" % "0.9.14",
+  "org.postgresql" % "postgresql" % "42.2.6",
+  "com.mchange" % "c3p0" % "0.9.5.4"
 )
 
 logBuffered in Test := false

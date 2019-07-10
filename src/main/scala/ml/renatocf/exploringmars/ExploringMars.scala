@@ -7,7 +7,9 @@ import org.scalatra.json._
 
 import com.typesafe.scalalogging.LazyLogging
 
-class ExploringMars extends ScalatraServlet with JacksonJsonSupport with LazyLogging {
+import ml.renatocf.exploringmars.data.DatabaseSessionSupport
+
+class ExploringMars extends ScalatraServlet with JacksonJsonSupport with LazyLogging with DatabaseSessionSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   before() {
