@@ -1,42 +1,64 @@
 package ml.renatocf.exploringmars.models
 
+import com.typesafe.scalalogging.LazyLogging
+
+import org.scalatest.BeforeAndAfter
+
 import org.scalatra.test.scalatest._
 
-class ProbeTests extends ScalatraFlatSpec {
+import org.squeryl.PrimitiveTypeMode._
+
+import ml.renatocf.exploringmars.data.DatabaseInit
+import ml.renatocf.exploringmars.data.MarsDb
+
+class ProbeTests extends ScalatraFlatSpec with DatabaseInit with BeforeAndAfter with LazyLogging {
+  configureDb()
+
+  before {
+    transaction {
+      MarsDb.drop
+      MarsDb.create
+    }
+  }
+
   trait SimpleMap {
-    val map = new Map(6, 4)
+    val map = Map(6, 4)
   }
 
   "A Probe" should "be initialized within a Map in the origin" in new SimpleMap {
-    val probe = new Probe(map)
+    val probe = Probe(map)
     probe.position shouldBe Point(0, 0)
     probe.direction shouldBe Direction.NORTH
   }
 
   it should "be initialized within a Map and non-default x" in new SimpleMap {
-    val probe = new Probe(map, position = Point(x = 2))
+    val probe = Probe(map, position = Point(x = 2))
     probe.position.x shouldBe 2
   }
 
   it should "be initialized within a Map and non-default y" in new SimpleMap {
-    val probe = new Probe(map, position = Point(y = 2))
+    val probe = Probe(map, position = Point(y = 2))
     probe.position.y shouldBe 2
   }
 
   it should "be initialized within a Map and non-default direction" in new SimpleMap {
-    val probe = new Probe(map, direction = Direction.SOUTH)
+    val probe = Probe(map, direction = Direction.SOUTH)
     probe.direction shouldBe Direction.SOUTH
   }
 
   it should "not be initialized outside a Map" in new SimpleMap {
     assertThrows[IllegalArgumentException] {
-      val probe = new Probe(map, position = Point(-1, -1))
+      val probe = Probe(map, position = Point(-1, -1))
     }
   }
 
   trait MapWithProbeInTheCenter {
-    val map = new Map(6, 4)
-    val probe = new Probe(map, Point(3, 2), Direction.NORTH)
+    val map = Map(6, 4)
+    val probe = Probe(map, Point(3, 2), Direction.NORTH)
+
+    inTransaction {
+      MarsDb.maps.insert(map)
+    }
   }
 
   "A Probe in the center of a Map pointing North" should "be positioned inside the map" in new MapWithProbeInTheCenter {
@@ -132,8 +154,12 @@ class ProbeTests extends ScalatraFlatSpec {
   }
 
   trait SmallestMapWithProbe {
-    val map = new Map(0, 0)
-    val probe = new Probe(map, Point(0, 0), Direction.NORTH)
+    val map = Map(0, 0)
+    val probe = Probe(map, Point(0, 0), Direction.NORTH)
+
+    inTransaction {
+      MarsDb.maps.insert(map)
+    }
   }
 
   "A Probe in the smallest map pointing North" should "be positioned inside the map" in new SmallestMapWithProbe {

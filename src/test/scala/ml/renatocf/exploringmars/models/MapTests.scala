@@ -1,26 +1,44 @@
 package ml.renatocf.exploringmars.models
 
+import com.typesafe.scalalogging.LazyLogging
+
+import org.scalatest.BeforeAndAfter
+
 import org.scalatra.test.scalatest._
 
-class MapTests extends ScalatraFlatSpec {
+import org.squeryl.PrimitiveTypeMode._
+
+import ml.renatocf.exploringmars.data.DatabaseInit
+import ml.renatocf.exploringmars.data.MarsDb
+
+class MapTests extends ScalatraFlatSpec with DatabaseInit with BeforeAndAfter with LazyLogging {
+  configureDb()
+
+  before {
+    transaction {
+      MarsDb.drop
+      MarsDb.create
+    }
+  }
+
   "A Map" should "be created with the upper rightmost point coordinates" in {
-    assert(new Map(6, 4) != null)
+    assert(Map(6, 4) != null)
   }
 
   it should "have a non-negative rightmost point x coordinate" in {
     assertThrows[IllegalArgumentException] {
-      new Map(-1, 4)
+      Map(-1, 4)
     }
   }
 
   it should "have a non-negative upper point y coordinate" in {
     assertThrows[IllegalArgumentException] {
-      new Map(6, -1)
+      Map(6, -1)
     }
   }
 
   trait SimpleMap {
-    val map = new Map(6, 4)
+    val map = Map(6, 4)
   }
 
   "A Simple Map" should "verify a point within its limits is inside the map" in new SimpleMap {
