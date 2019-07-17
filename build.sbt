@@ -22,11 +22,14 @@ libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
   "org.squeryl" %% "squeryl" % "0.9.14",
   "org.postgresql" % "postgresql" % "42.2.6",
-  "com.mchange" % "c3p0" % "0.9.5.4"
+  "com.mchange" % "c3p0" % "0.9.5.4",
+  "org.scalatra" %% "scalatra-swagger" % ScalatraVersion
 )
 
 logBuffered in Test := false
 parallelExecution in Test := false
+
+containerPort in Jetty := sys.env.getOrElse("PORT", "3000").toInt
 
 containerLibs in Jetty := Seq(
   "org.eclipse.jetty" % "jetty-runner" % "9.4.19.v20190610" intransitive()

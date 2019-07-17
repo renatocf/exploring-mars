@@ -10,7 +10,7 @@ WORKDIR /usr/src/api
 
 # Define base environment variables for the api
 ENV HOST=0.0.0.0 \
-    PORT=8080
+    PORT=3000
 
 # Expose default port to connect with the service
 EXPOSE $PORT

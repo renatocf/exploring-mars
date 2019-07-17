@@ -1,13 +1,22 @@
 version: '3.7'
 
 services:
+  docs:
+    image: 'swaggerapi/swagger-ui:v3.23.1'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'api'
+    env_file:
+      - '.env'
+
   api:
     image: '${API_IMAGE}'
     build:
       context: .
       target: '${API_BUILD_TARGET}'
     ports:
-      - "8080:8080"
+      - "3000:3000"
     volumes:
       - '.:/usr/src/api'
       - 'target:/usr/src/api/target'
