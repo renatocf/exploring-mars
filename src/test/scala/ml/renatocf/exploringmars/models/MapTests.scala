@@ -21,6 +21,12 @@ class MapTests extends ScalatraFlatSpec with DatabaseInit with BeforeAndAfter wi
     }
   }
 
+  after {
+    transaction {
+      MarsDb.drop
+    }
+  }
+
   "A Map" should "be created with the upper rightmost point coordinates" in {
     assert(Map(6, 4) != null)
   }
@@ -35,6 +41,11 @@ class MapTests extends ScalatraFlatSpec with DatabaseInit with BeforeAndAfter wi
     assertThrows[IllegalArgumentException] {
       Map(6, -1)
     }
+  }
+
+  it should "be created from a map input" in {
+    val mapInput = MapInput(6, 4)
+    assert(Map(mapInput) != null)
   }
 
   trait SimpleMap {

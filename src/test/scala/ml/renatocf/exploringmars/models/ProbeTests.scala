@@ -1,5 +1,7 @@
 package ml.renatocf.exploringmars.models
 
+import java.util.UUID
+
 import com.typesafe.scalalogging.LazyLogging
 
 import org.scalatest.BeforeAndAfter
@@ -18,6 +20,12 @@ class ProbeTests extends ScalatraFlatSpec with DatabaseInit with BeforeAndAfter 
     transaction {
       MarsDb.drop
       MarsDb.create
+    }
+  }
+
+  after {
+    transaction {
+      MarsDb.drop
     }
   }
 
@@ -50,6 +58,11 @@ class ProbeTests extends ScalatraFlatSpec with DatabaseInit with BeforeAndAfter 
     assertThrows[IllegalArgumentException] {
       val probe = Probe(map, position = Point(-1, -1))
     }
+  }
+
+  it should "be initialized with a valid Probe input" in new SimpleMap {
+    val probeInput = ProbeInput(6, 4, Direction.NORTH)
+    assert(Probe(map, probeInput) != null)
   }
 
   trait MapWithProbeInTheCenter {
